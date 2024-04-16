@@ -1,4 +1,5 @@
 #!/bin/bash
 userdel volt
+systemctl daemon-reload
 
 exit 0
