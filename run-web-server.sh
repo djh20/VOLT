@@ -1,2 +1,2 @@
 #!/bin/bash
-uvicorn web:app --host 0.0.0.0 --workers 2
+uvicorn web:app --host 0.0.0.0 --port 80 --workers 2
