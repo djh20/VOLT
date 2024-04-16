@@ -1,0 +1,16 @@
+[Unit]
+Description=VOLT Broker
+After=network.target
+
+[Service]
+Type=simple
+User=volt
+Group=volt
+Restart=always
+RestartSec=1
+StartLimitIntervalSec=0
+WorkingDirectory=/usr/share/volt
+ExecStart=/usr/bin/python broker.py
+
+[Install]
+WantedBy=multi-user.target

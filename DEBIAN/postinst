@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Create user specifically for this application
+useradd volt
+chown -R volt:volt /usr/share/volt
+
+# Allow python to use port 80
+PYTHON_PATH=$(readlink -f /usr/bin/python)
+setcap 'cap_net_bind_service=+ep' "$PYTHON_PATH"
+
+# Set services to start on boot
+systemctl enable redis-server.service
+systemctl enable volt-broker.service
+systemctl enable volt-web-server.service
+
+# Start services
+systemctl start volt-broker.service
+systemctl start volt-web-server.service
+
+exit 0

@@ -1,0 +1,8 @@
+#!/bin/bash
+systemctl stop volt-broker.service
+systemctl stop volt-web-server.service
+
+systemctl disable volt-broker.service
+systemctl disable volt-web-server.service
+
+exit 0

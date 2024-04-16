@@ -1,0 +1,16 @@
+[Unit]
+Description=VOLT Web Server
+After=network.target
+
+[Service]
+Type=simple
+User=volt
+Group=volt
+Restart=always
+RestartSec=1
+StartLimitIntervalSec=0
+WorkingDirectory=/usr/share/volt
+ExecStart=/bin/bash run-web-server.sh
+
+[Install]
+WantedBy=multi-user.target
