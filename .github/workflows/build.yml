@@ -44,10 +44,12 @@ jobs:
           depends: python3 (>= 3.9.0), python3 (<< 3.10.0), python3-pip (>= 20.3.0), python3-pip (<< 20.4.0), redis
           desc: Voltage Observation and Logging Tool.
       
-      - name: Release Package
+      - name: Create Release Draft
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ steps.build_package.outputs.file_name }}
+          asset_name: ${{ github.event.repository.name }}-${{ github.ref_name }}.deb
           tag: ${{ github.ref }}
+          draft: true
           overwrite: true
