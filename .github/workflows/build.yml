@@ -1,0 +1,51 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepare Package
+        run: | 
+          rm -rf frontend
+          mkdir -p .debpkg/usr/share/volt
+          mv * .debpkg/usr/share/volt
+
+      - name: Build Package
+        uses: jiro4989/build-deb-action@v3
+        id: build_package
+        with:
+          package: volt
+          package_root: .debpkg
+          maintainer: djh20
+          version: ${{ github.ref }}
+          arch: all
+          depends: python3 (>= 3.9.0), python3 (<< 3.10.0), python3-pip (>= 20.3.0), python3-pip (<< 20.4.0), redis
+          desc: Voltage Observation and Logging Tool.
+      
+      - name: Release Package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ steps.build_package.outputs.file_name }}
+          tag: ${{ github.ref }}
+          overwrite: true
