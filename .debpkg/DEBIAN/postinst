@@ -1,8 +1,9 @@
 #!/bin/bash
+useradd volt # Create user specifically for this application
 
-# Create user specifically for this application
-useradd volt
-chown -R volt:volt /usr/share/volt
+cd /usr/share/volt
+chown -R volt:volt . # Set file ownership
+pip install -r requirements.txt # Install python requirements
 
 # Allow python to use port 80
 PYTHON_PATH=$(readlink -f /usr/bin/python)
