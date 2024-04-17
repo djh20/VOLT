@@ -1,5 +1,6 @@
 #!/bin/bash
 useradd volt # Create user specifically for this application
+usermod -a -G dialout volt # Allow serial port access
 
 cd /usr/share/volt
 chown -R volt:volt . # Set file ownership
